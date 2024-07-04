@@ -1,0 +1,32 @@
+{
+    "name": "mdnayeemsarker/easy-aws",
+    "description": "THis is This is an aws helper package. If you use this package and that one is compleatly manage your aws file upload, delete, file url, download etc",
+    "version": "1.0",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mdnayeemsarker\\EasyAws\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mdnayeemsarker",
+            "email": "dev.ab.nayeem@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^7.2",
+        "league/flysystem-aws-s3-v3": "^3.19",
+        "intervention/image": "2.5",
+        "illuminate/support": "^9.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mdnayeemsarker\\EasyAws\\Providers\\EasyAwsServiceProvider"
+            ]
+        }
+    }
+}
