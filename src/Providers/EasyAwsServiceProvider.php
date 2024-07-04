@@ -1,6 +1,6 @@
 <?php
 
-namespace Mdnayeemsarker\EasyAws\EasyAwsServiceProvider;
+namespace Mdnayeemsarker\EasyAws\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Mdnayeemsarker\EasyAws\NAws;
