@@ -88,12 +88,7 @@ class NAws
                     $data['file_original_name'] .= '.' . $arr[$i];
                 }
             }
-            $path = 'uploads/all/' . $file->hashName();
-            Storage::disk('s3')->put($path, file_get_contents($file), [
-                'visibility' => 'public',
-                'ContentType' => $ext == 'svg' ? 'image/svg+xml' : $file->getMimeType(),
-            ]);
-
+            $path = $file->store($this->storagePath, $this->filesystemDriver);
             $data['extension'] = $ext;
             $data['file_name'] = $path;
             $data['file_size'] = $file->getSize();
