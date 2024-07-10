@@ -109,7 +109,7 @@ class NAws
             ]);
             $data['status'] =  true;
         } catch (AwsException $e) {
-            $data['status'] =  false;
+            $data['status'] =  false; 
             $data['message'] =  $e->getAwsErrorMessage();
         }
         $data['extension'] = $ext;
