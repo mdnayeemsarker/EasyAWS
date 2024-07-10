@@ -4,8 +4,8 @@ namespace Mdnayeemsarker\EasyAws;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Aws\Exception\AwsException;
+use Aws\S3\S3Client;
 
 class NAws
 {
@@ -78,22 +78,50 @@ class NAws
     {
         $ext = strtolower($file->getClientOriginalExtension());
 
-        if (isset($this->type[$ext])) {
-            $data['file_original_name'] = '';
-            $arr = explode('.', $file->getClientOriginalName());
-            for ($i = 0; $i < count($arr) - 1; $i++) {
-                if ($i == 0) {
-                    $data['file_original_name'] .= $arr[$i];
-                } else {
-                    $data['file_original_name'] .= '.' . $arr[$i];
-                }
+        $data['file_original_name'] = null;
+        $arr = explode('.', $file->getClientOriginalName());
+        for($i=0; $i < count($arr)-1; $i++){
+            if($i == 0){
+                $data['file_original_name'] .= $arr[$i];
             }
-            $path = $file->store($this->storagePath, $this->filesystemDriver);
-            $data['extension'] = $ext;
-            $data['file_name'] = $path;
-            $data['file_size'] = $file->getSize();
+            else{
+                $data['file_original_name'] .= ".".$arr[$i];
+            }
         }
+
+        $s3Client = new S3Client([
+            'region' => $this->awsDefaultRegion,
+            'version' => 'latest',
+            'credentials' => [
+                'key' => $this->awsAccessKeyId,
+                'secret' => $this->awsSecretAccessKey,
+            ],
+        ]);
+
+        $path = $this->storagePath . $this->get_random_number(48) . '.' . $ext;
+
+        try {
+            $s3Client->putObject([
+                'Bucket' => $this->awsBucket,
+                'Key' => $path,
+                'Body' => fopen($file->getPathname(), 'r'),
+                'ContentType' => $file->getMimeType(),
+            ]);
+            $data['status'] =  true;
+        } catch (AwsException $e) {
+            $data['status'] =  false;
+            $data['message'] =  $e->getAwsErrorMessage();
+        }
+        $data['extension'] = $ext;
+        $data['file_name'] = $path;
+        $data['file_size'] = $file->getSize();
         return $data;
+    }
+
+    function get_random_number($length)
+    {
+        $rand_txt = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return substr(str_shuffle(str_repeat($rand_txt, 5)), 0, $length);
     }
 
     public function checkAwsAccessKeyId()
