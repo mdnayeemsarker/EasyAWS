@@ -113,6 +113,7 @@ class NAws
             $data['message'] =  $e->getAwsErrorMessage();
         }
         $data['extension'] = $ext;
+        $data['type'] = $this->type[$ext];
         $data['file_name'] = $path;
         $data['file_size'] = $file->getSize();
         return $data;
