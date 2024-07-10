@@ -22,17 +22,17 @@ class NAws
 
     public function __construct()
     {
-        $this->awsAccessKeyId = Config::get('easyaws.ne_aws_access_key_id');
-        $this->awsSecretAccessKey = Config::get('easyaws.ne_aws_secret_access_key');
-        $this->awsDefaultRegion = Config::get('easyaws.ne_aws_default_region');
-        $this->awsBucket = Config::get('easyaws.ne_aws_bucket');
-        $this->awsUrl = Config::get('easyaws.ne_aws_url');
-        $this->awsPath = Config::get('easyaws.ne_aws_path');
-        $this->isDebug = Config::get('easyaws.ne_is_debug', false);
+        $this->awsAccessKeyId = Config::get('app.ne_aws_access_key_id');
+        $this->awsSecretAccessKey = Config::get('app.ne_aws_secret_access_key');
+        $this->awsDefaultRegion = Config::get('app.ne_aws_default_region');
+        $this->awsBucket = Config::get('app.ne_aws_bucket');
+        $this->awsUrl = Config::get('app.ne_aws_url');
+        $this->awsPath = Config::get('app.ne_aws_path');
+        $this->isDebug = Config::get('app.ne_is_debug', false);
         $this->type = $this->initializeTypes();
 
-        $this->storagePath = Config::get('easyaws.ne_storage_path');
-        $this->filesystemDriver = Config::get('easyaws.ne_filesystem_driver');
+        $this->storagePath = Config::get('app.ne_storage_path');
+        $this->filesystemDriver = Config::get('app.ne_filesystem_driver');
 
     }
 
