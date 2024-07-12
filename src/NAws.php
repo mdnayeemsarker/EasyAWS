@@ -120,7 +120,7 @@ class NAws
         return $data;
     }
 
-    function get_file($path)
+    function get_file_url($path)
     {
         if ($this->filesystemDriver == 's3') {
             return Storage::disk('s3')->url($path);
