@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
+use Illuminate\Support\Facades\Storage;
 
 class NAws
 {
@@ -98,7 +99,7 @@ class NAws
             ],
         ]);
 
-        $path = $this->storagePath . $this->get_random_number(48) . '.' . $ext;
+        $path = $this->storagePath . $this->make_file_path(48) . '.' . $ext;
 
         try {
             $s3Client->putObject([
@@ -119,7 +120,14 @@ class NAws
         return $data;
     }
 
-    function get_random_number($length)
+    function get_gile($path)
+    {
+        if ($this->filesystemDriver == 's3') {
+            return Storage::disk('s3')->url($path);
+        }
+    }
+
+    function make_file_path($length)
     {
         $rand_txt = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         return substr(str_shuffle(str_repeat($rand_txt, 5)), 0, $length);
