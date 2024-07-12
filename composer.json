@@ -1,7 +1,7 @@
 {
     "name": "mdnayeemsarker/easy-aws",
     "description": "THis is This is an aws helper package. If you use this package and that one is compleatly manage your aws file upload, delete, file url, download etc",
-    "version": "1.8",
+    "version": "1.9",
     "type": "library",
     "license": "MIT",
     "autoload": {
